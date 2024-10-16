@@ -1,0 +1,39 @@
+{
+  "name": "taxi-app",
+  "version": "1.0.0",
+  "description": "Custom Celo Composer project.",
+  "private": true,
+  "author": "Katlego, Sihle, Thabani, Alfios",
+  "license": "MIT",
+  "scripts": {
+    "react-app:dev": "yarn workspace @celo-composer-minipay-template/react-app dev",
+    "react-app:build": "yarn workspace @celo-composer-minipay-template/react-app build",
+    "react-app:start": "yarn workspace @celo-composer-minipay-template/react-app start",
+    "react-app:lint": "yarn workspace @celo-composer-minipay-template/react-app lint",
+    "express-server:dev": "yarn workspace express-server start",
+    "dev": "concurrently \"yarn react-app:dev\" \"yarn express-server:dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celo-org/celo-composer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/celo-org/celo-composer/issues"
+  },
+  "homepage": "https://github.com/celo-org/celo-composer/blob/main/README.md",
+  "workspaces": [
+    "packages/*",
+    "hardhat/*",
+    "packages/express-server"
+  ],
+  "keywords": [
+    "celo-composer",
+    "celo"
+  ],
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "web3": "^4.13.0"
+  }
+}
