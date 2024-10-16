@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi App</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            position: relative;
+        }
+        .gif {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .gif img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        .connect-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .connect-btn:hover {
+            background-color: #218838;
+        }
+        .content {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .paragraph {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .menu a {
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .menu a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <button class="connect-btn" id="connectButton">Connect</button>
+        
+        <div class="gif">
+            <img src="taxi.gif" alt="Taxi GIF">
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="title">TAXI APP</div>
+
+        <div class="paragraph">This App is only for our drivers</div>
+
+        <div class="menu">
+            <a href="verification.html">Verification</a>
+            <a href="microloans.html">Microloans</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('connectButton').addEventListener('click', async () => {
+            // Check if MetaMask is installed
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Request account access
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    
+                    // Check if the connected account is the desired address
+                    const connectedAccount = accounts[0];
+                    const desiredAddress = '0xA280f85081b1D6e07250dB0F3cAb491b8dA7839B';
+                    
+                    if (connectedAccount.toLowerCase() === desiredAddress.toLowerCase()) {
+                        alert('Connected to MetaMask successfully!');
+                    } else {
+                        alert(`Please connect to the correct address: ${desiredAddress}`);
+                    }
+                } catch (error) {
+                    console.error('Error connecting to MetaMask:', error);
+                    alert('Failed to connect to MetaMask.');
+                }
+            } else {
+                alert('MetaMask is not installed. Please install MetaMask and try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>
