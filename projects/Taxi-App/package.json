@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "web3": "^4.12.1"
+  },
+  "name": "taxi-app",
+  "version": "1.0.0",
+  "main": "checkbalance.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

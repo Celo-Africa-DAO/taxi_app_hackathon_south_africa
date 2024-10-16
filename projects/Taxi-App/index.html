@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To RideWayaWaya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            background: url('black-car-mate.gif') no-repeat center center/cover;
+        }
+
+        header h1, header p, .intro p {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .request-trip-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            background-color: #ff6600;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.7);
+            animation: glow 1.5s infinite alternate;
+            cursor: pointer;
+        }
+
+        .request-trip-button:hover {
+            box-shadow: 0 0 25px rgba(255, 102, 0, 1);
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 102, 0, 1);
+            }
+        }
+
+        .nb-note {
+            position: absolute;
+            bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: red;
+            transition: transform 0.3s ease;
+        }
+
+        .nb-note:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <header>
+            <h1>Welcome To RideWayaWaya</h1>
+            <p>Your next ride is just a tap away.</p>
+        </header>
+        <div class="intro">
+            <p>Cashless rides, ride-sharing coordination, and loyalty rewards await!</p>
+        </div>
+        <div class="action-button">
+            <a href="RequestTrip.html" class="request-trip-button">Request Trip</a>
+        </div>
+        <p class="nb-note">NB: This app is only available in Cape Town, South Africa.</p>
+    </div>
+</body>
+</html>
