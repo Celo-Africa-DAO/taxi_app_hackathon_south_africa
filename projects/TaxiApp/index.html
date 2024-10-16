@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        select, button {
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Connect Button */
+        .connect-button {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .connect-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Connected Button Style */
+        .connected-button {
+            position: absolute;
+            top: 50px;
+            right: 200px;
+            padding: 10px 20px;
+            background-color: #007BFF; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .connected-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Connected Dropdown Style */
+        .connected-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            padding: 10px;
+            background-color: #282c34;
+            color: white;
+            border: 1px solid #61dafb;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .connected-dropdown select {
+            background-color: #282c34;
+            color: #61dafb;
+            border: none;
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .connected-dropdown option {
+            background-color: #282c34;
+            color: #61dafb;
+            padding: 10px;
+        }
+
+        .connected-dropdown select option:hover {
+            background-color: #61dafb;
+            color: #282c34;
+        }
+
+        /* Connection Status Style */
+        #connectionStatus {
+            font-weight: bold;
+            font-size: 16px;
+            color: #000;
+            margin-left: 10px;
+        }
+
+        /* Center the alert */
+        .center-alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .center-alert button {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.0/web3.min.js"></script>
+</head>
+<body>
+    <!-- Connect Button -->
+    <button id="connectButton" class="connect-button" onclick="connectWallet()">Connect</button>
+
+    <!-- Connected Button for total payments -->
+    <button id="connectedButton" class="connected-button hidden"></button>
+
+    <!-- Connected Dropdown -->
+    <div id="connectedDropdown" class="connected-dropdown hidden">
+        <select onchange="handleDropdownAction(event)">
+            <option value="">Select an action</option>
+            <option value="copy">Copy Address</option>
+            <option value="disconnect">Disconnect</option>
+        </select>
+    </div>
+
+    <!-- Center Alert -->
+    <div id="alertBox" class="center-alert">
+        <p>Address copied to clipboard!</p>
+        <button onclick="closeAlert()">Close</button>
+    </div>
+
+    <header>
+        <h1>Taxi App</h1>
+        <nav>
+            <a href="#" onclick="showSection('home')">Home</a>
+            <a href="#" onclick="showSection('booking')">Book a Taxi</a>
+            <a href="#" onclick="showSection('payment')">Payment</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="home" class="section">
+            <h2>Welcome to Taxi App</h2>
+            <p>Book a taxi and make payments easily with our app.</p>
+            <button onclick="showSection('booking')">Request</button>
+            <div class="wallet-address" id="wallet-address"></div>
+        </div>
+
+        <div id="booking" class="section hidden">
+            <h2>Book a Taxi</h2>
+            <form id="booking-form">
+                <label for="from">From:</label>
+                <select id="from" name="from" required>
+                    <option value="">Select starting point</option>
+                    <option value="Gugulethu">Gugulethu</option>
+                    <option value="Nyanga">Nyanga</option>
+                    <option value="Delft">Delft</option>
+                    <option value="Phillip">Phillip</option>
+                    <option value="Montague Gardens">Montague Gardens</option>
+                    <option value="Salt River">Salt River</option>
+                </select>
+
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination" required>
+                    <option value="">Select destination</option>
+                    <option value="Khayelitsha">Khayelitsha</option>
+                    <option value="Delft">Delft</option>
+                    <option value="Nyanga">Nyanga</option>
+                    <option value="Kenilworth">Kenilworth</option>
+                    <option value="Canal Walk">Canal Walk</option>
+                    <option value="Woodstock">Woodstock</option>
+                </select>
+
+                <button type="submit">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <div id="payment" class="section hidden">
+            <h2>Payment</h2>
+            <p><strong>Estimated Fare:</strong> $<span id="fare-amount">0</span></p>
+            <button id="pay-now">Pay Now</button>
+        </div>
+    </main>
+
+    <script>
+        // Define the contract ABI and address here
+        const contractABI = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "PaymentReceived",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "getBalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "payForTaxi",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalPayments",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        const contractAddress = '0x3199ac028922cc955B80928fc5a4E5D5Fd6c6f0E'; // Replace with your contract address
+
+        let web3;
+        let contract;
+        let userAccount;
+
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                web3 = new Web3(window.ethereum);
+                userAccount = (await web3.eth.getAccounts())[0];
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+                document.getElementById('wallet-address').innerText = `Wallet Address: ${userAccount}`;
+                document.getElementById('connectButton').classList.add('hidden');
+                document.getElementById('connectedButton').innerText = `Connected: ${userAccount}`;
+                document.getElementById('connectedButton').classList.remove('hidden');
+                document.getElementById('connectedDropdown').classList.remove('hidden');
+            } else {
+                alert('Please install MetaMask!');
+            }
+        }
+
+        function handleDropdownAction(event) {
+            const action = event.target.value;
+            if (action === 'copy') {
+                navigator.clipboard.writeText(userAccount).then(() => {
+                    showAlert('Address copied to clipboard!');
+                });
+            } else if (action === 'disconnect') {
+                userAccount = null;
+                contract = null;
+                document.getElementById('wallet-address').innerText = '';
+                document.getElementById('connectButton').classList.remove('hidden');
+                document.getElementById('connectedButton').classList.add('hidden');
+                document.getElementById('connectedDropdown').classList.add('hidden');
+            }
+        }
+
+        function showAlert(message) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'block';
+            alertBox.querySelector('p').innerText = message;
+        }
+
+        function closeAlert() {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'none';
+        }
+
+        document.getElementById('booking-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const fare = (Math.random() * 0.9 + 0.1).toFixed(2); // Generates a random fare between 0.1 and 1.0
+        document.getElementById('fare-amount').innerText = fare;
+        showSection('payment');
+    });
+        document.getElementById('pay-now').addEventListener('click', async function () {
+            const fare = document.getElementById('fare-amount').innerText;
+            try {
+                await contract.methods.payForTaxi().send({ from: userAccount, value: web3.utils.toWei(fare, 'ether') });
+                alert('Payment successful!');
+            } catch (error) {
+                console.error(error);
+                alert('Payment failed!');
+            }
+        });
+
+        function showSection(section) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((sec) => {
+                sec.classList.add('hidden');
+            });
+            document.getElementById(section).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
