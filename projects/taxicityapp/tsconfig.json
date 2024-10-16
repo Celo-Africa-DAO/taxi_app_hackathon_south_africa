@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"module": "NodeNext",
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"strict": false,
+		"target": "es2022",
+		"moduleResolution": "node16",
+		"noImplicitAny": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["dist"],
+	"ts-node": {
+		"esm": true
+	}
+}
